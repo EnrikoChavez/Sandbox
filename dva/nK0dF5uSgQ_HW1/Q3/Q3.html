@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<!-- cse6242 -->
+
+<!-- run: http-server & -->
+
+<head>
+  <style>    
+    /* Define css rules here */
+  </style>
+<title></title>
+</head>
+<h>hi</h>
+<body>
+
+  <script src="lib/d3/d3.min.js"></script>
+  <script src="lib/d3-dsv/d3-dsv.min.js"></script>
+  <script src="lib/d3-fetch/d3-fetch.min.js"></script>
+
+
+  <script>
+    // define the dimensions and margins for the graph
+    margin = ({top: 20, right: 30, bottom: 30, left: 40})
+    width = 554
+    height = 500
+    var barPadding = 3;
+    var padding = 40;
+
+    // define function to parse time in years format
+	
+
+    // create scales x & y for X and Y axis and set their ranges
+    
+
+    x = d3.scaleLinear()
+    .domain([1884, 2010])
+    .range([margin.left, width - margin.right])
+
+    y = d3.scaleLinear()
+    .domain([0, 180000])
+    .range([height - margin.bottom, margin.top])
+
+    xAxis = g => g
+    .attr("transform", `translate(0,${height - margin.bottom})`)
+    .call(d3.axisBottom(x))
+
+    yAxis = g => g
+    .attr("transform", `translate(${margin.left},0)`)
+    .call(d3.axisLeft(y))
+
+    // append svg element to the body of the page
+    var svg = d3.select("body").append("svg")
+	   	// set the id, dimensions and position of the svg element 	
+	    	// .append("g")
+	    	// .attr("id", "container")
+        .attr("width", width)
+        .attr("height", height);
+
+
+    // Get the data
+	  var pathToCsv = "q3.csv";		// path to csv
+	
+    d3.dsv(",", pathToCsv, function (d) {
+      return {
+        // format data attributes if required
+        year : parseInt(d.year),
+        running_total : parseInt(d.running_total)
+      }
+    }).then(function (data) {
+      console.log(data); // you should see the data in your browser's developer tools console 
+      
+      /* Create bar plot using data from csv */
+
+      svg.selectAll("rect")
+      .data(data)
+      .enter()
+      .append("rect")
+      .attr("x", function(d, i) {
+            return i * (width/data.length);
+            })
+      .attr("y", function(d,i) {
+        console.log(d)
+          return height - d.running_total;
+          })
+      .attr("width", width/data.length - barPadding)
+      .attr("height", function(d) {
+          return d.running_total;
+          })
+      .attr("fill", "teal");
+      // chart = {
+
+      //   svg.append("g")
+      //       .call(xAxis);
+
+      //   svg.append("g")
+      //       .call(yAxis);
+
+      //   return svg.node();
+      // }
+
+      // set the domains of X and Y scales based on data
+      x.domain();
+      y.domain();
+
+      // Add bars to svg - create new elements based on your data
+      svg.selectAll()
+
+
+      // Add the X Axis
+      svg.append()
+
+      // Add the text label for X Axis
+      svg.append()
+
+      // Add the Y Axis
+      svg.append()
+
+      // Add the text label for Y axis
+      svg.append()
+
+
+    }).catch(function (error) {
+      console.log(error);
+    });
+
+  </script>
+
+</body>
